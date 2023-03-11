@@ -8,7 +8,7 @@ interface InputSearchProps {
 
 export function InputSearch({ value, setValue, onSearch }: InputSearchProps) {
   return (
-    <div className="flex-1 max-w-[500px] flex flex-center">
+    <div className="flex-1 max-w-xl flex flex-center">
       <input
         value={value}
         onChange={(e) => setValue && setValue(e.target.value)}

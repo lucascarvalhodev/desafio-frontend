@@ -1,6 +1,6 @@
 export function VideoBox() {
   return (
-    <div className="max-w-xs">
+    <div className="max-w-lg cursor-pointer">
       <div className="relative">
         <img
           src="https://kp-blog.s3.amazonaws.com/wp-content/uploads/2019/02/20102611/aplicativode-editar-video-7-dicas-para-criar-videos-de-sucesso.jpg"
@@ -12,7 +12,13 @@ export function VideoBox() {
       </div>
       <div className="flex gap-3 py-3">
         <div>
-          <div className="w-9 h-9 rounded-full bg-white"></div>
+          <div className="w-9 h-9">
+            <img
+              src="https://yt3.googleusercontent.com/1_i7Xq_jSuIJ3ZfG9-K_yWnrxoGSfpSq4XIMUcM80pj8-b2HJQoZmS6rSWMTQPBzrqn9_uMOIQ=s900-c-k-c0x00ffffff-no-rj"
+              alt="channel"
+              className="rounded-full"
+            />
+          </div>
         </div>
         <div>
           <div className="font-bold text-sm mb-1">

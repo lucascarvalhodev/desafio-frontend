@@ -1,16 +1,59 @@
+import { useLayoutEffect, useState } from "react";
 import { InputSearch } from "./InputSearch";
 import { Logo } from "./Logo";
-import { NavbarMenu } from "./NavbarMenu";
+import { BsCameraVideo, BsBell, BsSearch, BsArrowLeft } from "react-icons/bs";
+import { IconButton } from "./IconButton";
 
 export function Navbar() {
+  const [search, setSearch] = useState("");
+  const [showSearch, setShowSearch] = useState(true);
+  const [slim, setSlim] = useState(true);
+
+  useLayoutEffect(() => {
+    window.addEventListener("resize", function () {
+      var windowWidth = window.innerWidth;
+
+      if (windowWidth <= 639) {
+        setShowSearch(false);
+        setSlim(true);
+        return;
+      }
+
+      setSlim(false);
+      setShowSearch(true);
+    });
+  }, []);
+
+  function onSearch() {
+    alert("onSearch: " + search);
+  }
+
+  const viewOptions = slim ? !showSearch : true;
+
   return (
-    <>
-      <div className="h-14 px-8 flex justify-between items-center gap-20 fixed top-0 left-0 right-0 z-50 bg-neutral-900">
-        <Logo />
-        <InputSearch />
-        <NavbarMenu />
-      </div>
-      <div className="h-14"></div>
-    </>
+    <div className="w-full h-14 px-4 flex justify-between items-center gap-5 sticky top-0 z-10 bg-neutral-900">
+      {!viewOptions && (
+        <IconButton onClick={() => setShowSearch(false)}>
+          <BsArrowLeft />
+        </IconButton>
+      )}
+      {viewOptions && <Logo />}
+      {showSearch && (
+        <InputSearch value={search} setValue={setSearch} onSearch={onSearch} />
+      )}
+      {viewOptions && (
+        <div className="flex items-center gap-2">
+          <IconButton className="sm:hidden" onClick={() => setShowSearch(true)}>
+            <BsSearch />
+          </IconButton>
+          <IconButton>
+            <BsCameraVideo />
+          </IconButton>
+          <IconButton>
+            <BsBell />
+          </IconButton>
+        </div>
+      )}
+    </div>
   );
 }

@@ -1,19 +1,14 @@
+import { AppRoutes } from "./AppRoutes";
 import { Navbar } from "./components/Navbar";
-import { VideoBox } from "./components/VideoBox";
+import { GlobalProvider } from "./providers/GlobalProvider";
 
-function App() {
-  const videos = Array(20).fill("");
-
+export function App() {
   return (
-    <div className="w-screen h-screen bg-neutral-900 text-white overflow-y-auto overflow-x-hidden">
-      <Navbar />
-      <div className="container mx-auto py-5 grid gap-x-8 gap-y-4 grid-cols-4">
-        {videos.map((_, key) => {
-          return <VideoBox key={key} />;
-        })}
+    <GlobalProvider>
+      <div className="w-screen h-screen relative bg-neutral-900 text-white overflow-y-auto overflow-x-hidden">
+        <Navbar />
+        <AppRoutes />
       </div>
-    </div>
+    </GlobalProvider>
   );
 }
-
-export default App;
