@@ -1,12 +1,14 @@
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getVideo } from "../services/api";
 import { useState } from "react";
 import { IFrameYoutube } from "../components/IFrameYoutube";
 import { DateTime } from "luxon";
+import { EAppRoutes } from "../AppRoutes";
 
 function VideoDetails() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [video, setVideo] = useState<any>();
 
   useEffect(() => {
@@ -14,11 +16,18 @@ function VideoDetails() {
   }, [id]);
 
   async function getData() {
-    if (!id) return;
+    if (!id) {
+      navigate(EAppRoutes.ERROR);
+      return;
+    }
 
-    const { data } = await getVideo(id);
-    const video = data.items[0];
-    setVideo(video);
+    try {
+      const { data } = await getVideo(id);
+      const video = data.items[0];
+      setVideo(video);
+    } catch (e) {
+      navigate(EAppRoutes.ERROR);
+    }
   }
 
   const title = video?.snippet?.title;

@@ -7,6 +7,16 @@ const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 const redirectUri = import.meta.env.VITE_GOOGLE_REDIRECT_URI;
 const key = import.meta.env.VITE_GOOGLE_API_KEY;
 
+const scopes = [
+  "https://www.googleapis.com/auth/youtube",
+  "https://www.googleapis.com/auth/youtube.channel-memberships.creator",
+  "https://www.googleapis.com/auth/youtube.force-ssl",
+  "https://www.googleapis.com/auth/youtube.readonly",
+  "https://www.googleapis.com/auth/youtube.upload",
+  "https://www.googleapis.com/auth/youtubepartner",
+  "https://www.googleapis.com/auth/youtubepartner-channel-audit",
+];
+
 export function getOAuthUrl() {
   const url = "https://accounts.google.com/o/oauth2/auth";
 
@@ -14,7 +24,7 @@ export function getOAuthUrl() {
     client_id: clientId,
     redirect_uri: host + redirectUri,
     response_type: "token",
-    scope: "https://www.googleapis.com/auth/youtube.force-ssl",
+    scope: scopes.join(" "),
     include_granted_scopes: "true",
     state: "pass-through value",
   };
@@ -30,11 +40,11 @@ export function getRegisterUrl() {
 
 export function setBearerToken(token?: string) {
   axios.defaults.headers.common = {
-    Authorization: token ? `bearer ${token}` : undefined,
+    Authorization: token ? `Bearer ${token}` : undefined,
   };
 }
 
-export function listSearch(search: string, pageToken = "") {
+export function getSearch(search: string, pageToken = "") {
   return axios.get(
     `search?key=${key}&part=id,snippet&q=${search}&maxResults=20&pageToken=${pageToken}&type=video`
   );
@@ -44,8 +54,8 @@ export function getVideo(id: string) {
   return axios.get(`videos?key=${key}&part=snippet,statistics&id=${id}`);
 }
 
-export function listVideosRecommended(id: string) {
+export function getMyChannel() {
   return axios.get(
-    `videos?key=${key}&part=snippet,statistics&chart=mostPopular&maxResults=20&videoCategoryId=${id}`
+    `channels?mine=true&part=snippet,contentDetails,brandingSettings,statistics&key=${key}`
   );
 }

@@ -1,47 +1,53 @@
 import { VideoBox } from "../components/VideoBox";
 import { useEffect, useState } from "react";
-import { listSearch } from "../services/api";
+import { getSearch } from "../services/api";
 import { VideoInterface } from "../interfaces/VideoInterface";
 import { Button } from "../components/Button";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { EAppRoutes } from "../AppRoutes";
 
 function Home() {
   const [videos, setVideos] = useState<any[]>();
   const [loading, setLoading] = useState(true);
 
   let [searchParams, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     search();
   }, [searchParams.get("search")]);
 
   async function search(pageToken?: string) {
-    setLoading(true);
+    try {
+      setLoading(true);
 
-    let search = searchParams.get("search") ?? "";
-    const { data } = await listSearch(search, pageToken);
+      let search = searchParams.get("search") ?? "";
+      const { data } = await getSearch(search, pageToken);
 
-    setSearchParams({
-      search,
-      prevPageToken: data?.prevPageToken,
-      nextPageToken: data?.nextPageToken,
-    });
+      setSearchParams({
+        search,
+        prevPageToken: data?.prevPageToken,
+        nextPageToken: data?.nextPageToken,
+      });
 
-    const videos: VideoInterface[] = data?.items.map((el: any) => {
-      return {
-        id: el.id.videoId,
-        title: el.snippet.title,
-        thumbnail: el.snippet.thumbnails.medium.url,
-        publishedAt: el.snippet.publishedAt,
-        channel: {
-          id: el.snippet.channelId,
-          title: el.snippet.channelTitle,
-        },
-      };
-    });
+      const videos: VideoInterface[] = data?.items.map((el: any) => {
+        return {
+          id: el.id.videoId,
+          title: el.snippet.title,
+          thumbnail: el.snippet.thumbnails.medium.url,
+          publishedAt: el.snippet.publishedAt,
+          channel: {
+            id: el.snippet.channelId,
+            title: el.snippet.channelTitle,
+          },
+        };
+      });
 
-    setVideos(videos);
-    setLoading(false);
+      setVideos(videos);
+      setLoading(false);
+    } catch (e) {
+      navigate(EAppRoutes.ERROR);
+    }
   }
 
   const videosFake = Array(20).fill(undefined);
