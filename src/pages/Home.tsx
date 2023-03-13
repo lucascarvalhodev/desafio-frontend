@@ -3,30 +3,35 @@ import { useEffect, useState } from "react";
 import { listSearch } from "../services/api";
 import { VideoInterface } from "../interfaces/VideoInterface";
 import { Button } from "../components/Button";
+import { useSearchParams } from "react-router-dom";
 
 function Home() {
   const [videos, setVideos] = useState<any[]>();
   const [loading, setLoading] = useState(true);
-  const [nextPageToken, setNextPageToken] = useState<string>();
-  const [prevPageToken, setPrevPageToken] = useState<string>();
+
+  let [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
     search();
-  }, []);
+  }, [searchParams.get("search")]);
 
   async function search(pageToken?: string) {
     setLoading(true);
-    const search = await listSearch("java script", pageToken);
 
-    setPrevPageToken(search.data?.prevPageToken);
-    setNextPageToken(search.data?.nextPageToken);
+    let search = searchParams.get("search") ?? "";
+    const { data } = await listSearch(search, pageToken);
 
-    const videos: VideoInterface[] = search.data["items"].map((el: any) => {
+    setSearchParams({
+      search,
+      prevPageToken: data?.prevPageToken,
+      nextPageToken: data?.nextPageToken,
+    });
+
+    const videos: VideoInterface[] = data?.items.map((el: any) => {
       return {
-        id: el.videoId,
+        id: el.id.videoId,
         title: el.snippet.title,
         thumbnail: el.snippet.thumbnails.medium.url,
-        viewCount: "el.statistics.viewCount",
         publishedAt: el.snippet.publishedAt,
         channel: {
           id: el.snippet.channelId,
@@ -41,6 +46,17 @@ function Home() {
 
   const videosFake = Array(20).fill(undefined);
   const data = loading ? videosFake : videos;
+
+  let prevPageToken: any = searchParams.get("prevPageToken");
+  let nextPageToken: any = searchParams.get("nextPageToken");
+
+  if (prevPageToken === "undefined" || prevPageToken === null) {
+    prevPageToken = undefined;
+  }
+
+  if (nextPageToken === "undefined" || nextPageToken === null) {
+    nextPageToken = undefined;
+  }
 
   return (
     <div className="container mx-auto py-4 px-4">

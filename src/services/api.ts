@@ -34,16 +34,6 @@ export function setBearerToken(token?: string) {
   };
 }
 
-export function listVideos() {
-  return axios.get(
-    `videos?key=${key}&part=snippet,statistics&chart=mostPopular&maxResults=20&type=video&regionCode=BR`
-  );
-}
-
-export function listChannels(id: string) {
-  return axios.get(`channels?key=${key}&part=snippet,statistics&id=${id}`);
-}
-
 export function listSearch(search: string, pageToken = "") {
   return axios.get(
     `search?key=${key}&part=id,snippet&q=${search}&maxResults=20&pageToken=${pageToken}&type=video`
@@ -51,29 +41,11 @@ export function listSearch(search: string, pageToken = "") {
 }
 
 export function getVideo(id: string) {
-  return axios.get(`videos?key=${key}&part=snippet,statistics,player&id=${id}`);
+  return axios.get(`videos?key=${key}&part=snippet,statistics&id=${id}`);
 }
 
 export function listVideosRecommended(id: string) {
   return axios.get(
     `videos?key=${key}&part=snippet,statistics&chart=mostPopular&maxResults=20&videoCategoryId=${id}`
-  );
-}
-
-export function getVideosHistory(id: string) {
-  return axios.get(
-    `videos?key=${key}&part=snippet,statistics&id=${id}&maxResults=20`
-  );
-}
-
-export function listVideoCategories() {
-  return axios.get(
-    `videoCategories?key=${key}&part=snippet&hl=pt_BR&regionCode=BR&maxResults=20`
-  );
-}
-
-export function listVideosByCategories(id: string) {
-  return axios.get(
-    `videos?key=${key}&part=snippet,statistics&chart=mostPopular&maxResults=20&type=video&regionCode=BR&videoCategoryId=${id}`
   );
 }

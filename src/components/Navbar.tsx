@@ -5,11 +5,11 @@ import { BsSearch, BsArrowLeft, BsPersonFill } from "react-icons/bs";
 import { IconButton } from "./IconButton";
 import { useAuthContext } from "../providers/AuthProvider";
 import { getOAuthUrl, getRegisterUrl } from "../services/api";
-import { useNavigate } from "react-router-dom";
+import { createSearchParams, useNavigate } from "react-router-dom";
 import { EAppRoutes } from "../AppRoutes";
 
 export function Navbar() {
-  const { auth, setAuth } = useAuthContext();
+  const { auth } = useAuthContext();
   const natigate = useNavigate();
 
   const [search, setSearch] = useState("");
@@ -23,19 +23,20 @@ export function Navbar() {
 
   function resize() {
     var windowWidth = window.innerWidth;
-
     if (windowWidth <= 639) {
       setShowSearch(false);
       setSlim(true);
       return;
     }
-
     setSlim(false);
     setShowSearch(true);
   }
 
   function onSearch() {
-    alert("onSearch: " + search);
+    natigate({
+      pathname: EAppRoutes.HOME,
+      search: createSearchParams({ search }).toString(),
+    });
   }
 
   function register() {
@@ -47,6 +48,7 @@ export function Navbar() {
   }
 
   function goToHome() {
+    setSearch("");
     natigate(EAppRoutes.HOME);
   }
 
@@ -57,7 +59,7 @@ export function Navbar() {
   const viewOptions = slim ? !showSearch : true;
 
   return (
-    <div className="w-full h-14 px-4 flex justify-between items-center gap-5 sticky top-0 z-10 bg-neutral-900">
+    <div className="w-full h-14 px-4 flex justify-between items-center gap-5 sticky top-0 z-10 bg-neutral-900 border-transparent border-b-neutral-800 border-[1px]">
       {!viewOptions && (
         <IconButton onClick={() => setShowSearch(false)}>
           <BsArrowLeft />
