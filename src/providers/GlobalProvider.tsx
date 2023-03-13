@@ -1,4 +1,5 @@
 import { BrowserRouter } from "react-router-dom";
+import { AuthProvider } from "./AuthProvider";
 
 interface GlobalProviderProps {
   children?: React.ReactNode;
@@ -7,7 +8,9 @@ interface GlobalProviderProps {
 export function GlobalProvider({ children }: GlobalProviderProps) {
   return (
     <>
-      <BrowserRouter>{children}</BrowserRouter>
+      <BrowserRouter>
+        <AuthProvider>{children}</AuthProvider>
+      </BrowserRouter>
     </>
   );
 }

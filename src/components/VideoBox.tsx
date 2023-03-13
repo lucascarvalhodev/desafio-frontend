@@ -1,31 +1,47 @@
-export function VideoBox() {
+import { VideoInterface } from "../interfaces/VideoInterface";
+import { Skeleton } from "./Skeleton";
+
+interface VideoBoxProps {
+  video?: VideoInterface;
+}
+
+export function VideoBox({ video }: VideoBoxProps) {
+  function goToChannel(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
+    e.stopPropagation();
+    //alert(video?.channel.id + " - " + video?.channel.title);
+  }
+
+  function goToVideo() {
+    //alert(video?.id + " - " + video?.title);
+  }
+
   return (
-    <div className="max-w-lg cursor-pointer">
-      <div className="relative">
-        <img
-          src="https://kp-blog.s3.amazonaws.com/wp-content/uploads/2019/02/20102611/aplicativode-editar-video-7-dicas-para-criar-videos-de-sucesso.jpg"
-          alt="video"
-        />
-        <div className="absolute text-xs font-bold bg-black bg-opacity-80 bottom-1 right-1 py-[1px] px-1 rounded-sm">
-          05:02
-        </div>
+    <div className="w-full cursor-pointer relative" onClick={goToVideo}>
+      <div>
+        {video ? (
+          <img src={video.thumbnail} alt={video.title} className="w-full" />
+        ) : (
+          <Skeleton className="h-36" />
+        )}
       </div>
-      <div className="flex gap-3 py-3">
+      <div className="py-3">
         <div>
-          <div className="w-9 h-9">
-            <img
-              src="https://yt3.googleusercontent.com/1_i7Xq_jSuIJ3ZfG9-K_yWnrxoGSfpSq4XIMUcM80pj8-b2HJQoZmS6rSWMTQPBzrqn9_uMOIQ=s900-c-k-c0x00ffffff-no-rj"
-              alt="channel"
-              className="rounded-full"
-            />
+          <div className="font-bold text-sm mb-1 w-full h-10 text-ellipsis overflow-hidden">
+            {video ? (
+              video.title
+            ) : (
+              <>
+                <Skeleton className="h-4" />
+                <Skeleton className="h-4" />
+              </>
+            )}
           </div>
-        </div>
-        <div>
-          <div className="font-bold text-sm mb-1">
-            A MELHOR FERRAMENTA DE BANCO DE DADOS EM 2023
+          <div className="text-xs">
+            {video ? video.channel?.title : <Skeleton />}
           </div>
-          <div className="text-xs">DevPleno</div>
-          <div className="text-xs">93 visualizações - há 8 horas</div>
+          <div className="text-xs">
+            {video ? `Publicado em: ${video.publishedAt}` : <Skeleton />}
+          </div>
         </div>
       </div>
     </div>

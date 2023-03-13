@@ -1,31 +1,57 @@
 import { useLayoutEffect, useState } from "react";
 import { InputSearch } from "./InputSearch";
 import { Logo } from "./Logo";
-import { BsCameraVideo, BsBell, BsSearch, BsArrowLeft } from "react-icons/bs";
+import { BsSearch, BsArrowLeft, BsPersonFill } from "react-icons/bs";
 import { IconButton } from "./IconButton";
+import { useAuthContext } from "../providers/AuthProvider";
+import { getOAuthUrl, getRegisterUrl } from "../services/api";
+import { useNavigate } from "react-router-dom";
+import { EAppRoutes } from "../AppRoutes";
 
 export function Navbar() {
+  const { auth, setAuth } = useAuthContext();
+  const natigate = useNavigate();
+
   const [search, setSearch] = useState("");
   const [showSearch, setShowSearch] = useState(true);
   const [slim, setSlim] = useState(true);
 
   useLayoutEffect(() => {
-    window.addEventListener("resize", function () {
-      var windowWidth = window.innerWidth;
-
-      if (windowWidth <= 639) {
-        setShowSearch(false);
-        setSlim(true);
-        return;
-      }
-
-      setSlim(false);
-      setShowSearch(true);
-    });
+    resize();
+    window.addEventListener("resize", resize);
   }, []);
+
+  function resize() {
+    var windowWidth = window.innerWidth;
+
+    if (windowWidth <= 639) {
+      setShowSearch(false);
+      setSlim(true);
+      return;
+    }
+
+    setSlim(false);
+    setShowSearch(true);
+  }
 
   function onSearch() {
     alert("onSearch: " + search);
+  }
+
+  function register() {
+    window.location.href = getRegisterUrl();
+  }
+
+  function login() {
+    window.location.replace(getOAuthUrl());
+  }
+
+  function goToHome() {
+    natigate(EAppRoutes.HOME);
+  }
+
+  function goToMyChannel() {
+    natigate(EAppRoutes.MY_CHANNEL);
   }
 
   const viewOptions = slim ? !showSearch : true;
@@ -37,21 +63,40 @@ export function Navbar() {
           <BsArrowLeft />
         </IconButton>
       )}
-      {viewOptions && <Logo />}
+      {viewOptions && (
+        <div onClick={goToHome} className="cursor-pointer">
+          <Logo />
+        </div>
+      )}
       {showSearch && (
         <InputSearch value={search} setValue={setSearch} onSearch={onSearch} />
       )}
       {viewOptions && (
         <div className="flex items-center gap-2">
-          <IconButton className="sm:hidden" onClick={() => setShowSearch(true)}>
-            <BsSearch />
-          </IconButton>
-          <IconButton>
-            <BsCameraVideo />
-          </IconButton>
-          <IconButton>
-            <BsBell />
-          </IconButton>
+          {auth ? (
+            <>
+              <IconButton
+                className="sm:hidden"
+                onClick={() => setShowSearch(true)}
+              >
+                <BsSearch />
+              </IconButton>
+
+              <IconButton onClick={goToMyChannel}>
+                <BsPersonFill />
+              </IconButton>
+            </>
+          ) : (
+            <>
+              <div onClick={login} className="cursor-pointer font-bold">
+                Login
+              </div>
+              <div>or</div>
+              <div onClick={register} className="cursor-pointer font-bold">
+                Register
+              </div>
+            </>
+          )}
         </div>
       )}
     </div>
