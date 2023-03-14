@@ -67,7 +67,7 @@ O layout da **home** não precisa ser exatamente como o do wireframe. Você pode
 1. Clonar repositório:
 
 ```sh
-git clone https://github.com/allinnemara/desafio-frontend.git
+git clone https://github.com/lucascarvalhodev/desafio-frontend.git
 ```
 
 2. Instalar dependências.
