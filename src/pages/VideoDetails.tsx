@@ -41,16 +41,14 @@ function VideoDetails() {
 
   return (
     <div className="container mx-auto py-4 px-4 max-w-5xl">
-      <div className="flex flex-col items-center">
+      <div className="flex flex-col">
         {id && <IFrameYoutube videoId={id} />}
-        <div>
-          <div className="text-lg font-bold mt-3 mb-1">
-            {title} - {channel}
-          </div>
-          <div className="text-sm font-medium mb-3">{`${viewCount} Visualizações | ${publishedAt}`}</div>
-          <div className="whitespace-pre-wrap">{description}</div>
-          <div className="text-sm text-blue-500 mt-3">{tags}</div>
+        <div className="text-lg font-bold mt-3 mb-1">
+          {title} - {channel}
         </div>
+        <div className="text-sm font-medium mb-3">{`${viewCount} Visualizações | ${publishedAt}`}</div>
+        <div className="whitespace-pre-wrap">{description}</div>
+        <div className="text-sm text-blue-500 mt-3">{tags}</div>
       </div>
     </div>
   );

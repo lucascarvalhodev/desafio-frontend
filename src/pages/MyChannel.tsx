@@ -28,6 +28,7 @@ function MyChannel() {
 
   function logout() {
     setAuth(undefined);
+    navigate(EAppRoutes.HOME);
   }
 
   const title = channel?.snippet?.title;

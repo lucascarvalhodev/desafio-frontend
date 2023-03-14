@@ -35,7 +35,7 @@ export function VideoBox({ video }: VideoBoxProps) {
       </div>
       <div className="py-3">
         <div>
-          <div className="font-bold text-sm mb-1 w-full h-10 text-ellipsis overflow-hidden">
+          <div className="font-bold text-sm mb-1 w-full text-ellipsis overflow-hidden">
             {video ? (
               title
             ) : (
