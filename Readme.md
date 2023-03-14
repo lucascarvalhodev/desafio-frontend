@@ -90,7 +90,7 @@ VITE_GOOGLE_API_KEY=[SUA_API_KEY_GOOGLE]
 
 voce pode obter suas credenciais no aqui => [console de desenvolvedor](https://console.cloud.google.com/apis/credentials)
 
-exemplo de como configurar a Origens JavaScript autorizadas e URIs de redirecionamento autorizados.
+exemplo de como configurar a Origens JavaScript autorizadas e URIs de redirecionamento autorizados do cliente OAuth 2.0.
 
 ![screen](/image2.png)
 
