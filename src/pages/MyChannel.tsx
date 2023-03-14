@@ -40,7 +40,7 @@ function MyChannel() {
   const viewCount = channel?.statistics?.viewCount;
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center px-4 text-center">
       <div className="mt-4">
         {channel ? (
           <img src={thumbnail} alt={title} className="rounded-full w-36 h-36" />

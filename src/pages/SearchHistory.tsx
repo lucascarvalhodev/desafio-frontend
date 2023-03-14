@@ -17,7 +17,7 @@ export function SearchHistory() {
   }
 
   return (
-    <div className="flex flex-col mt-4 items-center">
+    <div className="flex flex-col mt-4 items-center text-center">
       <div className="text-lg font-bold mb-1">Histórico de busca</div>
       {searchHistory?.reverse().map((sh) => (
         <div>{sh}</div>
