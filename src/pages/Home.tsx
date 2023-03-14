@@ -7,11 +7,10 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { EAppRoutes } from "../AppRoutes";
 
 function Home() {
-  const [videos, setVideos] = useState<any[]>();
-  const [loading, setLoading] = useState(true);
-
   let [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
+  const [videos, setVideos] = useState<any[]>();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     search();
@@ -50,9 +49,6 @@ function Home() {
     }
   }
 
-  const videosFake = Array(20).fill(undefined);
-  const data = loading ? videosFake : videos;
-
   let prevPageToken: any = searchParams.get("prevPageToken");
   let nextPageToken: any = searchParams.get("nextPageToken");
 
@@ -63,6 +59,9 @@ function Home() {
   if (nextPageToken === "undefined" || nextPageToken === null) {
     nextPageToken = undefined;
   }
+
+  const videosFake = Array(20).fill(undefined);
+  const data = loading ? videosFake : videos;
 
   return (
     <div className="container mx-auto py-4 px-4">
