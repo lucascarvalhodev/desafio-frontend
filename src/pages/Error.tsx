@@ -11,7 +11,7 @@ function Error() {
         <BsExclamationTriangle />
       </div>
       <div className="text-2xl">Algo deu errado...</div>
-      <div className="mt-10">
+      <div className="mt-5">
         <Button onClick={() => navigate(-1)}>Tenta novamente</Button>
       </div>
     </div>

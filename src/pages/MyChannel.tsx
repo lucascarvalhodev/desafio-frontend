@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { EAppRoutes } from "../AppRoutes";
 import { Button } from "../components/Button";
+import { Skeleton } from "../components/Skeleton";
 import { useAuthContext } from "../providers/AuthProvider";
 import { getMyChannel } from "../services/api";
 
@@ -40,15 +41,31 @@ function MyChannel() {
   return (
     <div className="flex flex-col items-center">
       <div className="mt-4">
-        <img src={thumbnail} alt={title} className="rounded-full w-36" />
+        {channel ? (
+          <img src={thumbnail} alt={title} className="rounded-full w-36 h-36" />
+        ) : (
+          <Skeleton className="rounded-full w-36 h-36" />
+        )}
       </div>
-      <div className="text-lg font-bold mt-3 mb-1">{title}</div>
-      <div className="mb-1 text-sm font-medium">{customUrl}</div>
-      <div className="mb-3">{description}</div>
-      <div className="py-2 px-4 border-2 border-neutral-700 flex text-sm font-bold mb-10">
-        {`${subscriberCount} inscritos | ${videoCount} vídeos | ${viewCount} visualizações`}
+      <div className="text-lg font-bold mt-3 mb-1">
+        {channel ? title : <Skeleton className="w-48 h-4" />}
       </div>
-      <Button onClick={logout}>Realizar logout</Button>
+      <div className="mb-1 text-sm font-medium">
+        {channel ? customUrl : <Skeleton className="w-48 h-4" />}
+      </div>
+      <div className="mb-3">
+        {channel ? description : <Skeleton className="w-48 h-4" />}
+      </div>
+      <div className="py-2 px-4 flex text-sm font-bold">
+        {channel ? (
+          `${subscriberCount} inscritos | ${videoCount} vídeos | ${viewCount} visualizações`
+        ) : (
+          <Skeleton className="w-72 h-4 mb-0" />
+        )}
+      </div>
+      <div className="mt-8">
+        <Button onClick={logout}>Realizar logout</Button>
+      </div>
     </div>
   );
 }

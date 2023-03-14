@@ -1,12 +1,18 @@
 import { useLayoutEffect, useState } from "react";
 import { InputSearch } from "./InputSearch";
 import { Logo } from "./Logo";
-import { BsSearch, BsArrowLeft, BsPersonFill } from "react-icons/bs";
+import {
+  BsSearch,
+  BsArrowLeft,
+  BsPersonFill,
+  BsListColumnsReverse,
+} from "react-icons/bs";
 import { IconButton } from "./IconButton";
 import { useAuthContext } from "../providers/AuthProvider";
 import { getOAuthUrl, getRegisterUrl } from "../services/api";
 import { createSearchParams, useNavigate } from "react-router-dom";
 import { EAppRoutes } from "../AppRoutes";
+import { addSearchHistory } from "../helpers/searchHistory";
 
 export function Navbar() {
   const { auth } = useAuthContext();
@@ -33,6 +39,7 @@ export function Navbar() {
   }
 
   function onSearch() {
+    addSearchHistory(search);
     natigate({
       pathname: EAppRoutes.HOME,
       search: createSearchParams({ search }).toString(),
@@ -56,10 +63,14 @@ export function Navbar() {
     natigate(EAppRoutes.MY_CHANNEL);
   }
 
+  function goToSearchHistory() {
+    natigate(EAppRoutes.SEARCH_HISTORY);
+  }
+
   const viewOptions = slim ? !showSearch : true;
 
   return (
-    <div className="w-full h-14 px-4 flex justify-between items-center gap-5 sticky top-0 z-10 bg-neutral-900 border-transparent border-b-neutral-800 border-[1px]">
+    <div className="w-full h-16 px-4 flex justify-between items-center gap-5 sticky top-0 z-10 bg-neutral-900 border-transparent border-b-neutral-800 border-[1px]">
       {!viewOptions && (
         <IconButton onClick={() => setShowSearch(false)}>
           <BsArrowLeft />
@@ -84,6 +95,9 @@ export function Navbar() {
                 <BsSearch />
               </IconButton>
 
+              <IconButton onClick={goToSearchHistory}>
+                <BsListColumnsReverse />
+              </IconButton>
               <IconButton onClick={goToMyChannel}>
                 <BsPersonFill />
               </IconButton>

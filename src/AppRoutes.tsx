@@ -5,6 +5,7 @@ import VideoDetails from "./pages/VideoDetails";
 import MyChannel from "./pages/MyChannel";
 import Error from "./pages/Error";
 import Callback from "./pages/Callback";
+import { SearchHistory } from "./pages/SearchHistory";
 
 export enum EAppRoutes {
   HOME = "/",
@@ -12,6 +13,7 @@ export enum EAppRoutes {
   MY_CHANNEL = "/my-channel",
   ERROR = "/error",
   CALLBACK = "/auth/callback",
+  SEARCH_HISTORY = "/search-history",
 }
 
 export function AppRoutes() {
@@ -22,6 +24,7 @@ export function AppRoutes() {
       <Route path={EAppRoutes.MY_CHANNEL} element={<MyChannel />} />
       <Route path={EAppRoutes.ERROR} element={<Error />} />
       <Route path={EAppRoutes.CALLBACK} element={<Callback />} />
+      <Route path={EAppRoutes.SEARCH_HISTORY} element={<SearchHistory />} />
     </Routes>
   );
 }
