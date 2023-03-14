@@ -45,17 +45,34 @@ export function setBearerToken(token?: string) {
 }
 
 export function getSearch(search: string, pageToken = "") {
-  return axios.get(
-    `search?key=${key}&part=id,snippet&q=${search}&maxResults=20&pageToken=${pageToken}&type=video`
-  );
+  return axios.get(`search`, {
+    params: {
+      key,
+      pageToken,
+      q: search,
+      part: "id,snippet",
+      maxResults: 20,
+      type: "video",
+    },
+  });
 }
 
 export function getVideo(id: string) {
-  return axios.get(`videos?key=${key}&part=snippet,statistics&id=${id}`);
+  return axios.get(`videos`, {
+    params: {
+      key,
+      id,
+      part: "snippet,statistics",
+    },
+  });
 }
 
 export function getMyChannel() {
-  return axios.get(
-    `channels?mine=true&part=snippet,contentDetails,brandingSettings,statistics&key=${key}`
-  );
+  return axios.get(`channels`, {
+    params: {
+      key,
+      part: "snippet,contentDetails,brandingSettings,statistics",
+      mine: true,
+    },
+  });
 }
