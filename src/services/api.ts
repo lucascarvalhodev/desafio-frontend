@@ -1,9 +1,9 @@
 import axios from "axios";
 import { scopes } from "./scopes";
 
-const baseUrl = "https://www.googleapis.com/youtube/v3";
-const OAuthGoogle = "https://accounts.google.com/o/oauth2/auth";
-const GoogleRegister = "https://accounts.google.com/signup";
+const baseUrl = import.meta.env.VITE_GOOGLE_BASE_URL;
+const OAuthGoogle = import.meta.env.VITE_GOOGLE_OAUTH;
+const GoogleRegister = import.meta.env.VITE_GOOGLE_REGISTER;
 const host = import.meta.env.VITE_HOST;
 const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 const redirectUri = import.meta.env.VITE_GOOGLE_REDIRECT_URI;
